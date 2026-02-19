@@ -104,7 +104,8 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
           ref={videoRef}
           className="w-full h-full object-cover"
           playsInline
-          preload="metadata"
+          preload="none"
+          poster={r.photo}
           muted={muted}
           loop
         >
