@@ -136,16 +136,25 @@ export async function trackPurchase(
   price: number,
   kitLabel: string
 ): Promise<void> {
-  // Client-side pixel
-  firePixelEvent("CompletePayment", {
+  // Client-side pixel — PlaceAnOrder é o evento de compra padrão TikTok
+  firePixelEvent("PlaceAnOrder", {
     value: price,
     currency: "BRL",
     content_type: "product",
+    contents: [
+      {
+        content_id: "tapetes-bandeja-3d",
+        content_name: kitLabel,
+        content_category: "Acessórios Automotivos",
+        quantity: 1,
+        price,
+      },
+    ],
   });
 
-  // Server-side
+  // Server-side CAPI
   await fireServerEvent(
-    "CompletePayment",
+    "PlaceAnOrder",
     userData,
     {
       value: price,
