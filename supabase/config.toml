@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.beehive-public-key]
 verify_jwt = false
+
+[functions.tiktok-events]
+verify_jwt = false

@@ -1,6 +1,7 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import { trackViewContent } from "@/lib/tiktokEvents";
 
 // Lazy load below-fold sections
 const BenefitsSection = lazy(() => import("@/components/BenefitsSection"));
@@ -19,6 +20,11 @@ const LazySection = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Index = () => {
+  useEffect(() => {
+    // Fire ViewContent when landing page loads
+    trackViewContent();
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />

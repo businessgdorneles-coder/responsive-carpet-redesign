@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Lock, ChevronRight, Star, ShieldCheck, Loader2, Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import prod1 from "@/assets/prod1.webp";
 import checkoutBanner from "@/assets/checkout-banner.png";
+import { trackInitiateCheckout, trackPurchase } from "@/lib/tiktokEvents";
+
 
 // Will be fetched from backend
 
@@ -72,6 +74,7 @@ const Checkout = () => {
   // Steps
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const initiateCheckoutFired = useRef(false);
 
   // Step 1
   const [name, setName] = useState("");
@@ -184,6 +187,18 @@ const Checkout = () => {
     return true;
   };
 
+  // Fire InitiateCheckout when user reaches step 3
+  useEffect(() => {
+    if (currentStep === 3 && !initiateCheckoutFired.current) {
+      initiateCheckoutFired.current = true;
+      trackInitiateCheckout(
+        { email: email.trim() || undefined, phone: phone || undefined },
+        priceInCents / 100,
+        kitLabel
+      );
+    }
+  }, [currentStep]);
+
   const handleFinalizePurchase = async () => {
     setIsProcessing(true);
 
@@ -282,6 +297,12 @@ const Checkout = () => {
       } else if (data?.status === "paid" || data?.status === "authorized") {
         setTransactionStatus("paid");
         toast({ title: "Pagamento aprovado! ✅", description: "Seu pedido foi confirmado." });
+        // Fire Purchase event (server-side + pixel)
+        trackPurchase(
+          { email: email.trim() || undefined, phone: phone || undefined },
+          priceInCents / 100,
+          kitLabel
+        );
       } else if (data?.status === "refused") {
         toast({ title: "Pagamento recusado", description: data?.refusedReason?.description || "Tente outro cartão.", variant: "destructive" });
       } else {
