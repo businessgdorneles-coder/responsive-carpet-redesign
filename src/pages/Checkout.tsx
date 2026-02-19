@@ -4,6 +4,7 @@ import { Lock, ChevronRight, Star, ShieldCheck, Loader2, Copy, Check } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import prod1 from "@/assets/prod1.webp";
+import checkoutBanner from "@/assets/checkout-banner.png";
 
 // Will be fetched from backend
 
@@ -344,12 +345,15 @@ const Checkout = () => {
         </div>
       </header>
 
-      {/* Security bar */}
-      <div className="bg-primary text-primary-foreground py-2 text-center text-sm font-semibold flex items-center justify-center gap-2">
-        <ShieldCheck className="w-4 h-4" />
-        COMPRA SEGURA
-        <Lock className="w-3.5 h-3.5 mx-1" />
-        SITE 100% PROTEGIDO
+      {/* Banner */}
+      <div className="w-full">
+        <img
+          src={checkoutBanner}
+          alt="CarpetCar - Frete Grátis Hoje - Encaixe perfeito no seu carro - Compra Segura"
+          className="w-full h-auto object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
       </div>
 
       {/* Timer */}
