@@ -19,6 +19,10 @@ const HeroSection = () => {
             alt="Tapete automotivo premium aplicado no carro"
             className="w-full h-auto object-cover"
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            width={768}
+            height={512}
           />
         </div>
         <a

@@ -29,6 +29,9 @@ const SatisfactionGallery = () => {
                 alt="Cliente com produto"
                 className="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
+                width={224}
+                height={224}
               />
             </div>
           ))}
