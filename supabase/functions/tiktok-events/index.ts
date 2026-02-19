@@ -56,15 +56,19 @@ serve(async (req) => {
       user,
     };
 
-    // Map event-specific properties
+    // Map event-specific properties — value must be at root of eventData per TikTok CAPI v1.3
     if (properties) {
-      const contents = properties.contents || [];
       const props: Record<string, unknown> = {};
+      const contents = properties.contents || [];
 
       if (contents.length > 0) props.contents = contents;
-      if (properties.value) props.value = properties.value;
-      if (properties.currency) props.currency = properties.currency || "BRL";
+      if (properties.currency) props.currency = properties.currency;
       if (properties.content_type) props.content_type = properties.content_type;
+
+      // value must be a number (not missing/undefined/null) — required for Purchase events
+      if (typeof properties.value === "number") {
+        props.value = properties.value;
+      }
 
       eventData.properties = props;
     }
