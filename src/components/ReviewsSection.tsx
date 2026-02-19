@@ -123,7 +123,7 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
             ref={videoRef}
             className="w-full h-full object-cover"
             playsInline
-            preload="auto"
+            preload="metadata"
             muted={muted}
             loop
           >

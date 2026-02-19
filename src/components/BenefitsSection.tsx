@@ -35,11 +35,14 @@ const BenefitsSection = () => {
               className="bg-card rounded-xl overflow-hidden shadow-sm border border-border/50 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
             >
               <div className="aspect-square overflow-hidden bg-muted">
-                <img
+              <img
                   src={b.gif}
                   alt={b.title}
                   className="w-full h-full object-cover"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={400}
                 />
               </div>
               <div className="p-6 text-center">
