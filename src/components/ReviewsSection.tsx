@@ -59,8 +59,6 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
-  // Only mount the <video> element after first click to avoid loading 6 videos at once
-  const [videoMounted, setVideoMounted] = useState(false);
 
   // Pause video when scrolled out of view
   useEffect(() => {
@@ -80,18 +78,7 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
     return () => observer.disconnect();
   }, [playing]);
 
-  // Auto-play after video is mounted in DOM
-  useEffect(() => {
-    if (videoMounted && videoRef.current) {
-      videoRef.current.play().then(() => setPlaying(true)).catch(() => {});
-    }
-  }, [videoMounted]);
-
-  const handlePlayClick = () => {
-    if (!videoMounted) {
-      setVideoMounted(true);
-      return;
-    }
+  const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
     if (playing) {
@@ -115,38 +102,23 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
     <div ref={cardRef} className="bg-card rounded-xl border border-border/50 overflow-hidden">
       {/* Video */}
       <div className="relative aspect-[9/14] bg-muted">
-        {/* Cover image — shown until video is playing */}
-        {!playing && (
-          <img
-            src={r.photo}
-            alt={r.name}
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-            width={300}
-            height={467}
-          />
-        )}
-
-        {/* Video element — only mounted after first click */}
-        {videoMounted && (
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            playsInline
-            preload="none"
-            muted={muted}
-            loop
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-          >
-            <source src={r.video} type="video/mp4" />
-          </video>
-        )}
+        {/* Video with preload=metadata to show first frame */}
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          playsInline
+          preload="metadata"
+          muted={muted}
+          loop
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+        >
+          <source src={r.video} type="video/mp4" />
+        </video>
 
         {/* Play overlay */}
         <button
-          onClick={handlePlayClick}
+          onClick={togglePlay}
           className="absolute inset-0 flex items-center justify-center bg-black/10 hover:bg-black/20 transition-colors"
           aria-label={playing ? "Pausar" : "Reproduzir"}
         >
