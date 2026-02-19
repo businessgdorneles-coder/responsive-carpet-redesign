@@ -19,6 +19,21 @@ const benefits = [
   },
 ];
 
+// Eager: carrega imediatamente, sem esperar visibilidade
+const EagerGif = ({ src, alt }: { src: string; alt: string }) => (
+  <img
+    src={src}
+    alt={alt}
+    className="w-full h-full object-cover"
+    loading="eager"
+    decoding="async"
+    fetchPriority="high"
+    width={400}
+    height={400}
+  />
+);
+
+// Lazy: carrega apenas quando entra na viewport
 const LazyGif = ({ src, alt }: { src: string; alt: string }) => {
   const ref = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -64,13 +79,15 @@ const BenefitsSection = () => {
           3 benefícios rápidos. Deslize para ver.
         </p>
         <div className="grid md:grid-cols-3 gap-6">
-          {benefits.map((b) => (
+          {benefits.map((b, i) => (
             <div
               key={b.title}
               className="bg-card rounded-xl overflow-hidden shadow-sm border border-border/50 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
             >
               <div className="aspect-square overflow-hidden bg-muted">
-                <LazyGif src={b.gif} alt={b.title} />
+                {i === 0
+                  ? <EagerGif src={b.gif} alt={b.title} />
+                  : <LazyGif src={b.gif} alt={b.title} />}
               </div>
               <div className="p-6 text-center">
                 <h3 className="font-display text-lg font-bold mb-2">{b.title}</h3>
