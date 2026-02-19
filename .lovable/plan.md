@@ -1,31 +1,23 @@
 
+## Adicionar "ou 3x de..." na seção produto
 
-# Melhorias no carregamento de videos com imagem de capa
+### Alteração
 
-## O que ja funciona
-O componente atual ja mostra a foto do avaliador como capa e so carrega o video ao clicar. Porem, ha um problema de UX: ao clicar em play, a imagem de capa desaparece imediatamente (porque `playing` vira `true`), mas o video ainda nao esta pronto -- causando um flash de tela preta ate o video comecar.
+Inserir uma linha de texto abaixo do preço principal em `src/components/ProductSection.tsx`, entre o preço (`R$ 173,93` / `R$ 263,53`) e a linha de "apenas R$ X,XX por dia".
 
-## Melhorias propostas
+### Valores calculados (3x sem juros)
 
-### 1. Manter imagem de capa ate o video estar pronto
-- Adicionar estado `videoReady` controlado pelo evento `canplay` do video
-- Manter a imagem de capa visivel ate `videoReady === true` (em vez de esconder quando `playing === true`)
-- Isso elimina o flash de tela preta
+- Kit interno: R$ 173,93 ÷ 3 = **R$ 57,98**
+- Kit completo: R$ 263,53 ÷ 3 = **R$ 87,84**
 
-### 2. Indicador de carregamento (spinner)
-- Mostrar um spinner animado entre o clique e o inicio da reproducao
-- Visivel quando `videoLoaded && !videoReady` (video foi solicitado mas ainda nao esta pronto)
+### Trecho a adicionar (linha 162, após o preço)
 
-### 3. Preload otimizado
-- Mudar `preload="auto"` para `preload="none"` ja que o video so e montado sob demanda -- nao precisa de preload
+```tsx
+<p className="text-muted-foreground text-sm mb-1">
+  ou 3x de R$ {selectedKit === "interno" ? "57,98" : "87,84"} sem juros
+</p>
+```
 
-## Detalhes tecnicos
+### Arquivo afetado
 
-Arquivo: `src/components/ReviewsSection.tsx`
-
-- Novo estado: `videoReady` (boolean, default false)
-- Event handler: `onCanPlay` no elemento `<video>` para setar `videoReady = true`
-- Condicao da imagem de capa: `{!videoReady && <img ... />}` (antes era `{!playing && ...}`)
-- Spinner: renderizado quando `videoLoaded && !videoReady`
-- Video preload: alterado para `"none"`
-
+- `src/components/ProductSection.tsx` — inserção de 1 linha após o preço principal
