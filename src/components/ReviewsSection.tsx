@@ -113,7 +113,7 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         >
-          <source src={r.video} type="video/mp4" />
+          <source src={`${r.video}#t=0.001`} type="video/mp4" />
         </video>
 
         {/* Play overlay */}
