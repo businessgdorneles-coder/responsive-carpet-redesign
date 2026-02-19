@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Star, BadgeCheck, Play, Volume2, VolumeX, Pause } from "lucide-react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { Star, BadgeCheck, Play, Volume2, VolumeX } from "lucide-react";
 
 import homem1 from "@/assets/homem1.jpg";
 import mulher1 from "@/assets/mulher1.jpg";
@@ -55,8 +55,45 @@ const reviews = [
 
 const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [inView, setInView] = useState(false);
+
+  // Lazy load video only when card is near viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Pause video when scrolled out of view
+  useEffect(() => {
+    if (!playing) return;
+    const el = cardRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && videoRef.current) {
+          videoRef.current.pause();
+          setPlaying(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [playing]);
 
   const togglePlay = () => {
     const v = videoRef.current;
@@ -77,25 +114,26 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
   };
 
   return (
-    <div className="bg-card rounded-xl border border-border/50 overflow-hidden">
+    <div ref={cardRef} className="bg-card rounded-xl border border-border/50 overflow-hidden">
       {/* Video */}
-      <div className="relative aspect-[9/14] bg-black">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover"
-          playsInline
-          preload="metadata"
-          muted={muted}
-          loop
-          onEnded={() => setPlaying(false)}
-        >
-          <source src={r.video} type="video/mp4" />
-        </video>
+      <div className="relative aspect-[9/14] bg-muted">
+        {inView && (
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            playsInline
+            preload="none"
+            muted={muted}
+            loop
+          >
+            <source src={r.video} type="video/mp4" />
+          </video>
+        )}
 
         {/* Play overlay */}
         <button
           onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors"
+          className="absolute inset-0 flex items-center justify-center bg-black/10 hover:bg-black/20 transition-colors"
           aria-label={playing ? "Pausar" : "Reproduzir"}
         >
           {!playing && (
@@ -106,19 +144,28 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
         </button>
 
         {/* Sound toggle */}
-        <button
-          onClick={toggleMute}
-          className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-          aria-label={muted ? "Ativar áudio" : "Desativar áudio"}
-        >
-          {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
+        {playing && (
+          <button
+            onClick={toggleMute}
+            className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+            aria-label={muted ? "Ativar áudio" : "Desativar áudio"}
+          >
+            {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          </button>
+        )}
       </div>
 
       {/* Info */}
       <div className="p-4">
         <div className="flex items-center gap-3 mb-3">
-          <img src={r.photo} alt={r.name} className="w-10 h-10 rounded-full object-cover" />
+          <img
+            src={r.photo}
+            alt={r.name}
+            className="w-10 h-10 rounded-full object-cover"
+            loading="lazy"
+            width={40}
+            height={40}
+          />
           <div>
             <p className="text-sm font-semibold">{r.name}</p>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
