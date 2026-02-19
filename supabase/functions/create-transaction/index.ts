@@ -68,8 +68,10 @@ serve(async (req) => {
       transactionPayload.shipping = shipping;
     }
 
-    // Basic auth: secret_key:x -> base64
-    const authToken = btoa(`${secretKey}:x`);
+    // Basic auth: secret_key:x -> base64 (using TextEncoder to handle all characters)
+    const encoder = new TextEncoder();
+    const encoded = encoder.encode(`${secretKey}:x`);
+    const authToken = btoa(String.fromCharCode(...encoded));
 
     const response = await fetch("https://api.conta.paybeehive.com.br/v1/transactions", {
       method: "POST",
