@@ -1,6 +1,6 @@
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, range',
 };
 
 Deno.serve(async (req) => {
@@ -27,29 +27,47 @@ Deno.serve(async (req) => {
       });
     }
 
-    const response = await fetch(url);
-    if (!response.ok || !response.body) {
+    // Forward Range header from browser to upstream (critical for video seeking/metadata)
+    const upstreamHeaders: Record<string, string> = {};
+    const rangeHeader = req.headers.get('range');
+    if (rangeHeader) {
+      upstreamHeaders['Range'] = rangeHeader;
+    }
+
+    const response = await fetch(url, { headers: upstreamHeaders });
+
+    if (!response.ok && response.status !== 206) {
       return new Response(JSON.stringify({ error: `Upstream ${response.status}` }), {
         status: response.status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
+    if (!response.body) {
+      return new Response(JSON.stringify({ error: 'No body' }), {
+        status: 502,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const contentType = response.headers.get('content-type') || 'application/octet-stream';
     const contentLength = response.headers.get('content-length');
+    const contentRange = response.headers.get('content-range');
 
     const headers: Record<string, string> = {
       ...corsHeaders,
       'Content-Type': contentType,
+      'Accept-Ranges': 'bytes',
       'Cache-Control': 'public, max-age=86400',
     };
 
-    if (contentLength) {
-      headers['Content-Length'] = contentLength;
-    }
+    if (contentLength) headers['Content-Length'] = contentLength;
+    if (contentRange) headers['Content-Range'] = contentRange;
 
-    // Stream the response body directly
-    return new Response(response.body, { headers });
+    // Return 206 Partial Content if upstream responded with it
+    const status = response.status === 206 ? 206 : 200;
+
+    return new Response(response.body, { status, headers });
   } catch (error) {
     return new Response(JSON.stringify({ error: String(error) }), {
       status: 500,

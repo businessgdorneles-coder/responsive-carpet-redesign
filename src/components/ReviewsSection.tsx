@@ -60,6 +60,14 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
 
+  // Seek to first frame once metadata is loaded so browser renders a preview
+  const handleLoadedMetadata = () => {
+    const v = videoRef.current;
+    if (v && !playing) {
+      v.currentTime = 0.001;
+    }
+  };
+
   // Pause video when scrolled out of view
   useEffect(() => {
     if (!playing) return;
@@ -110,6 +118,7 @@ const ReviewVideoCard = ({ r }: { r: (typeof reviews)[0] }) => {
           preload="metadata"
           muted={muted}
           loop
+          onLoadedMetadata={handleLoadedMetadata}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         >
