@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
 import BenefitsSection from "@/components/BenefitsSection";
 import ProductSection from "@/components/ProductSection";
+import UrgencySection from "@/components/UrgencySection";
 import { trackViewContent } from "@/lib/tiktokEvents";
 
 const FeaturesSection = lazy(() => import("@/components/FeaturesSection"));
@@ -47,7 +48,10 @@ const Index = () => {
         {/* 6. Especificações premium */}
         <LazySection><SpecsSection /></LazySection>
 
-        {/* 7. Produto — configure e compre */}
+        {/* 7. Urgência — estoque + vendas recentes */}
+        <UrgencySection />
+
+        {/* 8. Produto — configure e compre */}
         <ProductSection />
 
         {/* 8. Prova social — avaliações */}
