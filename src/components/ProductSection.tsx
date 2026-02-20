@@ -60,7 +60,7 @@ const ProductSection = () => {
   const savings = selectedKit === "interno" ? "R$ 224,00" : "R$ 222,14";
 
   return (
-    <section id="produto" className="py-16 md:py-24 bg-section-alt">
+    <section id="produto" className="py-12 md:py-24 bg-section-alt">
       <div className="container max-w-5xl">
         {/* Section header */}
         <div className="text-center mb-10">
@@ -90,7 +90,7 @@ const ProductSection = () => {
               <span className="inline-block bg-success text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">MELHOR PREÇO</span>
               <h4 className="font-display font-bold text-sm leading-tight">KIT INTERNO <span className="text-muted-foreground font-normal">sem porta-malas</span></h4>
               <p className="text-xs text-muted-foreground line-through">de R$ 397,93</p>
-              <p className="font-display text-xl font-bold text-primary">R$ 173,93</p>
+              <p className="font-display text-xl font-bold text-success">R$ 173,93</p>
               <p className="text-[10px] text-success font-semibold">Economize R$ 224,00</p>
             </div>
             {selectedKit === "interno" && (
@@ -110,7 +110,7 @@ const ProductSection = () => {
               <span className="inline-block bg-warning text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">⭐ MAIS VENDIDO</span>
               <h4 className="font-display font-bold text-sm leading-tight">KIT COMPLETO <span className="text-primary font-bold">+ porta-malas</span></h4>
               <p className="text-xs text-muted-foreground line-through">de R$ 485,67</p>
-              <p className="font-display text-xl font-bold text-primary">R$ 263,53</p>
+              <p className="font-display text-xl font-bold text-success">R$ 263,53</p>
               <p className="text-[10px] text-success font-semibold">Economize R$ 222,14</p>
             </div>
             {selectedKit === "completo" && (
@@ -176,22 +176,38 @@ const ProductSection = () => {
 
         {/* Configurator + CTA */}
         <div className="bg-card border border-border/50 rounded-2xl shadow-card overflow-hidden">
-          {/* Price banner */}
-          <div className="bg-hero-dark px-6 py-5 text-center border-b border-white/10">
-            <p className="text-white/40 text-xs line-through mb-0.5">de R$ {oldPrice}</p>
-            <p className="font-display text-5xl font-bold text-white">R$ {price}</p>
-            <p className="text-white/50 text-xs mt-1">ou 3x de R$ {installment} com juros</p>
-            <div className="inline-flex items-center gap-1.5 mt-2 bg-success/20 text-success text-xs font-bold px-3 py-1.5 rounded-full">
-              <Zap className="w-3 h-3" />
-              5% OFF pagando no PIX — economia de {savings}
+          {/* Price banner — gatilho de compra */}
+          <div className="bg-hero-dark px-5 py-6 text-center border-b border-white/10">
+            {/* Oferta limitada tag */}
+            <span className="inline-block bg-warning/20 text-warning text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
+              🔥 Oferta por tempo limitado
+            </span>
+
+            {/* De / Por */}
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <p className="text-white/40 text-sm line-through">R$ {oldPrice}</p>
+              <span className="text-white/40 text-xs">→</span>
+            </div>
+
+            {/* Preço principal — verde vibrante para gatilho */}
+            <p className="font-display font-black leading-none mb-1" style={{ fontSize: "clamp(2.8rem, 10vw, 4rem)", color: "hsl(142 71% 45%)", textShadow: "0 0 32px hsl(142 71% 45% / 0.45)" }}>
+              R$ {price}
+            </p>
+
+            {/* Economia em destaque */}
+            <p className="text-white/50 text-xs mb-2">ou 3x de R$ {installment} com juros</p>
+
+            <div className="inline-flex items-center gap-1.5 bg-success/20 text-success text-xs font-bold px-3 py-1.5 rounded-full">
+              <Zap className="w-3 h-3 shrink-0" />
+              5% OFF no PIX — economia de {savings}
             </div>
           </div>
 
-          <div className="p-6 md:p-8">
+          <div className="p-4 md:p-8">
             <h3 className="font-display font-bold text-lg mb-1 text-center">Configure seu tapete</h3>
             <p className="text-muted-foreground text-xs text-center mb-6">Selecione seu veículo e a cor preferida</p>
 
-            <div className="grid sm:grid-cols-2 gap-3 max-w-lg mx-auto mb-4">
+            <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto mb-4">
               <div>
                 <label className="text-xs font-bold mb-1.5 block text-muted-foreground uppercase tracking-wide">Tipo de veículo</label>
                 <select value={vehicleType} onChange={(e) => handleTypeChange(e.target.value)} className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30">
