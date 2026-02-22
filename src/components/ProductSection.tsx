@@ -53,11 +53,11 @@ const ProductSection = () => {
   const handleBrandChange = (value: string) => { setBrand(value); setModel(""); setYear(""); };
   const handleModelChange = (value: string) => { setModel(value); setYear(""); };
 
-  const price = selectedKit === "interno" ? "173,93" : "263,53";
-  const oldPrice = selectedKit === "interno" ? "397,93" : "485,67";
-  const installment = selectedKit === "interno" ? "60,30" : "90,94";
-  const perDay = selectedKit === "interno" ? "0,51" : "0,73";
-  const savings = selectedKit === "interno" ? "R$ 224,00" : "R$ 222,14";
+  const price = selectedKit === "interno" ? "139,90" : "229,90";
+  const oldPrice = selectedKit === "interno" ? "349,90" : "459,90";
+  const installment = selectedKit === "interno" ? "48,38" : "79,50";
+  const perDay = selectedKit === "interno" ? "0,38" : "0,63";
+  const savings = selectedKit === "interno" ? "R$ 210,00" : "R$ 230,00";
 
   return (
     <section id="produto" className="py-12 md:py-24 bg-section-alt">
@@ -89,9 +89,9 @@ const ProductSection = () => {
             <div className="flex-1 min-w-0">
               <span className="inline-block bg-success text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">MELHOR PREÇO</span>
               <h4 className="font-display font-bold text-sm leading-tight">KIT INTERNO <span className="text-muted-foreground font-normal">sem porta-malas</span></h4>
-              <p className="text-xs text-muted-foreground line-through">de R$ 397,93</p>
-              <p className="font-display text-xl font-bold text-success">R$ 173,93</p>
-              <p className="text-[10px] text-success font-semibold">Economize R$ 224,00</p>
+              <p className="text-xs text-muted-foreground line-through">de R$ 349,90</p>
+              <p className="font-display text-xl font-bold text-success">R$ 139,90</p>
+              <p className="text-[10px] text-success font-semibold">Economize R$ 210,00</p>
             </div>
             {selectedKit === "interno" && (
               <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
@@ -109,9 +109,9 @@ const ProductSection = () => {
             <div className="flex-1 min-w-0">
               <span className="inline-block bg-warning text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">⭐ MAIS VENDIDO</span>
               <h4 className="font-display font-bold text-sm leading-tight">KIT COMPLETO <span className="text-primary font-bold">+ porta-malas</span></h4>
-              <p className="text-xs text-muted-foreground line-through">de R$ 485,67</p>
-              <p className="font-display text-xl font-bold text-success">R$ 263,53</p>
-              <p className="text-[10px] text-success font-semibold">Economize R$ 222,14</p>
+              <p className="text-xs text-muted-foreground line-through">de R$ 459,90</p>
+              <p className="font-display text-xl font-bold text-success">R$ 229,90</p>
+              <p className="text-[10px] text-success font-semibold">Economize R$ 230,00</p>
             </div>
             {selectedKit === "completo" && (
               <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
