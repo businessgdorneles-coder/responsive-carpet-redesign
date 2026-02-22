@@ -14,6 +14,7 @@ import prod7 from "@/assets/prod7.png";
 import kitSem from "@/assets/kit-sem-portamalas.jpg";
 import kitCom from "@/assets/kit-com-portamalas.png";
 import correiosLogo from "@/assets/correios-logo.png";
+import seloRA from "@/assets/selo-ra.png";
 
 const productImages = [prod1, foto1, prod2, prod3, prod4, prod5, prod6, prod7];
 
@@ -66,15 +67,14 @@ const ProductSection = () => {
         <div className="text-center mb-10">
           {/* Selo Reclame Aqui */}
           <div className="flex justify-center mb-5">
-            <div className="inline-flex items-center gap-3 bg-card border border-border/50 rounded-2xl px-5 py-3 shadow-card">
-              <img src="https://s3.amazonaws.com/rfrqimg/logo_RA_2.png" alt="Reclame Aqui" className="h-7 object-contain" loading="lazy" />
-              <div className="w-px h-8 bg-border" />
-              <div>
-                <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                  Reputação
-                  <span className="inline-block bg-success/15 text-success text-[10px] font-bold px-2 py-0.5 rounded-full">ÓTIMO</span>
+            <div className="inline-flex items-center gap-2.5 bg-card border border-border/50 rounded-2xl px-4 py-2.5 shadow-card">
+              <img src={seloRA} alt="Reclame Aqui" className="h-8 w-8 object-contain shrink-0" width={32} height={32} />
+              <div className="w-px h-7 bg-border shrink-0" />
+              <div className="text-left">
+                <p className="text-[11px] font-bold text-foreground leading-tight">Reclame Aqui</p>
+                <p className="text-[10px] text-muted-foreground leading-tight">
+                  <strong className="text-success">8.7</strong>/10 · <span className="text-success font-semibold">Ótimo</span>
                 </p>
-                <p className="text-[11px] text-muted-foreground">Nota <strong className="text-success">8.7/10</strong> · 98% resolvidos</p>
               </div>
             </div>
           </div>
