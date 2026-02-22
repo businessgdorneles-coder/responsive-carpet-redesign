@@ -112,7 +112,7 @@ const Checkout = () => {
   // Transaction result
   const [transactionStatus, setTransactionStatus] = useState<string | null>(null);
 
-  const basePriceInCents = orderData?.selectedKit === "completo" ? 26353 : 17393;
+  const basePriceInCents = orderData?.selectedKit === "completo" ? 22990 : 13990;
   const PIX_DISCOUNT = 0.05;
   const priceInCents = paymentMethod === "pix"
     ? Math.round(basePriceInCents * (1 - PIX_DISCOUNT))
