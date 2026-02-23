@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import { trackViewContent } from "@/lib/tiktokEvents";
 import { metaTrackViewContent } from "@/lib/metaEvents";
+import Footer from "@/components/Footer";
 
 const DescriptionSection = lazy(() => import("@/components/DescriptionSection"));
 const ReviewsSection = lazy(() => import("@/components/ReviewsSection"));
@@ -27,7 +28,7 @@ const Index = () => {
         <LazySection><DescriptionSection /></LazySection>
         <LazySection><ReviewsSection /></LazySection>
       </main>
-      
+      <Footer />
     </div>
   );
 };
