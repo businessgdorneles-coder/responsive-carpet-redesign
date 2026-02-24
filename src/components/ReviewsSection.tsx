@@ -13,7 +13,7 @@ const reviews = [
   {
     name: "Lucas Almeida",
     photo: homem1,
-    review: "Tapete de excelente qualidade, encaixou perfeitamente no carro. Ficou melhor do que esperava!",
+    review: "Confesso que fiquei na dúvida antes de comprar, mas a Velox me surpreendeu demais! O tapete encaixou perfeito e a qualidade é absurda. Super recomendo a loja!",
     video: proxyUrl("https://oficialcarpetcar.com/img/vd1.mp4"),
     verified: "Cliente verificado",
     city: "São Paulo, SP",
@@ -21,7 +21,7 @@ const reviews = [
   {
     name: "Mariana Costa",
     photo: mulher1,
-    review: "Deu outra cara pro interior do carro, material muito bonito. Recomendo a todos!",
+    review: "Estava com um pé atrás pra comprar online, mas a Velox entregou tudo certinho e rápido. O tapete é lindo e deu outra cara pro meu carro. Loja confiável demais!",
     video: proxyUrl("https://oficialcarpetcar.com/img/SaveSora_video_1767843500520.mp4"),
     verified: "Cliente verificada",
     city: "Belo Horizonte, MG",
@@ -29,7 +29,7 @@ const reviews = [
   {
     name: "Rafael Nogueira",
     photo: homem2,
-    review: "Produto muito bem acabado e chegou rápido. O encaixe é perfeito, sem folgas.",
+    review: "Pesquisei bastante antes de decidir e escolhi a Velox. Melhor decisão! Produto premium, acabamento impecável e o atendimento foi nota 10. Já indiquei pra vários amigos.",
     video: proxyUrl("https://oficialcarpetcar.com/img/vd2.mp4"),
     verified: "Cliente verificado",
     city: "Rio de Janeiro, RJ",
@@ -37,7 +37,7 @@ const reviews = [
   {
     name: "Ana Paula Ribeiro",
     photo: mulher1_2,
-    review: "Ficou lindo no carro, super recomendo. Já indiquei para todos os meus amigos.",
+    review: "Quase desisti de comprar por medo de não servir, mas a equipe da Velox me ajudou a escolher o modelo certo. Chegou perfeito! Loja séria e de confiança, recomendo de olhos fechados.",
     video: proxyUrl("https://oficialcarpetcar.com/img/vd3.mp4"),
     verified: "Cliente verificada",
     city: "Curitiba, PR",
@@ -45,7 +45,7 @@ const reviews = [
   {
     name: "Bruno Martins",
     photo: homem3,
-    review: "Encaixe perfeito e acabamento premium. Vale muito o investimento.",
+    review: "Tinha receio de comprar tapete online, mas a Velox provou que vale a pena. Encaixe perfeito, material premium e entrega antes do prazo. Virei cliente fiel!",
     video: proxyUrl("https://oficialcarpetcar.com/img/vd4.mp4"),
     verified: "Cliente verificado",
     city: "Porto Alegre, RS",
@@ -53,7 +53,7 @@ const reviews = [
   {
     name: "Camila Ferreira",
     photo: mulher3,
-    review: "Material fácil de limpar e muito bonito. Meu carro ficou com cara de novo.",
+    review: "Fiquei em dúvida entre várias lojas, mas a Velox tinha as melhores avaliações e não me arrependi! Tapete de qualidade absurda, fácil de limpar e meu carro ficou outro. Podem comprar sem medo!",
     video: proxyUrl("https://oficialcarpetcar.com/img/SaveSora_video_1767842395044.mp4"),
     verified: "Cliente verificada",
     city: "Brasília, DF",
