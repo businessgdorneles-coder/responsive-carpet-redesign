@@ -3,7 +3,7 @@ import logoVelox from "@/assets/logo-velox.png";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 bg-[hsl(214,50%,10%)] border-b border-white/10">
+    <header className="sticky top-0 z-50 bg-primary border-b border-primary-foreground/10">
       <div className="container flex items-center justify-between py-3">
         <button aria-label="Menu" className="text-white">
           <Menu className="w-6 h-6" />
