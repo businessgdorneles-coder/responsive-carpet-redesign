@@ -428,29 +428,11 @@ const Checkout = () => {
         </div>
       </header>
 
-      {/* Trust bar */}
-      <div className="bg-primary/95 border-b border-primary-foreground/10 overflow-hidden">
-        <div className="flex items-center justify-center gap-2 sm:gap-8 py-2 px-2 max-w-6xl mx-auto">
-          <div className="flex items-center gap-1 text-primary-foreground/60 text-[8px] sm:text-[10px] font-light">
-            <ShieldCheck className="w-2.5 h-2.5 text-success/70 shrink-0" />
-            <span className="whitespace-nowrap">Segura</span>
-          </div>
-          <span className="text-primary-foreground/20 text-[7px]">•</span>
-          <div className="flex items-center gap-1 text-primary-foreground/60 text-[8px] sm:text-[10px] font-light">
-            <Truck className="w-2.5 h-2.5 text-success/70 shrink-0" />
-            <span className="whitespace-nowrap">Frete Grátis</span>
-          </div>
-          <span className="text-primary-foreground/20 text-[7px]">•</span>
-          <div className="flex items-center gap-1 text-primary-foreground/60 text-[8px] sm:text-[10px] font-light">
-            <RotateCcw className="w-2.5 h-2.5 text-success/70 shrink-0" />
-            <span className="whitespace-nowrap">Troca 7d</span>
-          </div>
-          <span className="text-primary-foreground/20 text-[7px]">•</span>
-          <div className="flex items-center gap-1 text-primary-foreground/60 text-[8px] sm:text-[10px] font-light">
-            <Headphones className="w-2.5 h-2.5 text-success/70 shrink-0" />
-            <span className="whitespace-nowrap">Suporte</span>
-          </div>
-        </div>
+      {/* Info bar */}
+      <div className="bg-primary border-b border-primary-foreground/10 overflow-hidden">
+        <p className="text-center text-primary-foreground/50 text-[9px] sm:text-[11px] font-light tracking-wide py-1.5 px-2 whitespace-nowrap">
+          O kit será enviado de acordo com o veículo informado na etapa anterior.
+        </p>
       </div>
 
       {/* Main layout */}
