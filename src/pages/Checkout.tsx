@@ -302,6 +302,22 @@ const Checkout = () => {
                 setTransactionStatus("paid");
                 window.ttq?.track('CompletePayment', { content_type: 'product', value: priceInCents / 100, currency: 'BRL' });
                 window.fbq?.('track', 'Purchase', { value: priceInCents / 100, currency: 'BRL' });
+                supabase.functions.invoke("meta-events", {
+                  body: {
+                    event_name: "Purchase",
+                    value: priceInCents / 100,
+                    currency: "BRL",
+                    email: email.trim(),
+                    phone: phone.trim(),
+                    name: name.trim(),
+                    city: city.trim(),
+                    state: uf.toUpperCase(),
+                    zip: cep.replace(/\D/g, ""),
+                    client_user_agent: navigator.userAgent,
+                    fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1],
+                    fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1],
+                  },
+                });
                 toast({ title: "PIX confirmado! ✅", description: "Seu pagamento foi aprovado." });
                 supabase.functions.invoke("notify-sale", {
                   body: {
@@ -323,6 +339,22 @@ const Checkout = () => {
         setTransactionStatus("paid");
         window.ttq?.track('CompletePayment', { content_type: 'product', value: priceInCents / 100, currency: 'BRL' });
         window.fbq?.('track', 'Purchase', { value: priceInCents / 100, currency: 'BRL' });
+        supabase.functions.invoke("meta-events", {
+          body: {
+            event_name: "Purchase",
+            value: priceInCents / 100,
+            currency: "BRL",
+            email: email.trim(),
+            phone: phone.trim(),
+            name: name.trim(),
+            city: city.trim(),
+            state: uf.toUpperCase(),
+            zip: cep.replace(/\D/g, ""),
+            client_user_agent: navigator.userAgent,
+            fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1],
+            fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1],
+          },
+        });
         toast({ title: "Pagamento aprovado! ✅", description: "Seu pedido foi confirmado." });
         supabase.functions.invoke("notify-sale", {
           body: {
