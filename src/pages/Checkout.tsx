@@ -281,6 +281,14 @@ const Checkout = () => {
           return;
         }
 
+        // Validate expiry format
+        const expiryMatch = cardExpiry.replace(/\s/g, "").match(/^(\d{2})\/(\d{2,4})$/);
+        if (!expiryMatch) {
+          toast({ title: "Validade inválida", description: "Use o formato MM/AA (ex: 12/26).", variant: "destructive" });
+          setIsProcessing(false);
+          return;
+        }
+
         if (!window.BeehivePay) {
           toast({ title: "Erro ao carregar gateway de pagamento", description: "Recarregue a página e tente novamente.", variant: "destructive" });
           setIsProcessing(false);
@@ -290,8 +298,9 @@ const Checkout = () => {
         window.BeehivePay.setPublicKey(beehivePublicKey);
         window.BeehivePay.setTestMode(false);
 
-        const [expMonth, expYear] = cardExpiry.split("/").map((v) => parseInt(v.trim(), 10));
-        const fullYear = expYear < 100 ? 2000 + expYear : expYear;
+        const expMonth = parseInt(expiryMatch[1], 10);
+        const expYearRaw = parseInt(expiryMatch[2], 10);
+        const fullYear = expYearRaw < 100 ? 2000 + expYearRaw : expYearRaw;
 
         cardHash = await window.BeehivePay.encrypt({
           number: cardNumber.replace(/\s/g, ""),
@@ -791,7 +800,14 @@ const Checkout = () => {
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="text-sm font-semibold block mb-1">Validade</label>
-                              <input value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} placeholder="MM/AA" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={5} />
+                            <input value={cardExpiry} onChange={(e) => {
+                              const nums = e.target.value.replace(/\D/g, "").slice(0, 4);
+                              if (nums.length >= 3) {
+                                setCardExpiry(`${nums.slice(0, 2)}/${nums.slice(2)}`);
+                              } else {
+                                setCardExpiry(nums);
+                              }
+                            }} placeholder="MM/AA" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={5} />
                             </div>
                             <div>
                               <label className="text-sm font-semibold block mb-1">CVV</label>
