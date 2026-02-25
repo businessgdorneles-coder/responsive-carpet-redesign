@@ -48,11 +48,11 @@ const HeroSection = () => {
   const handleBrandChange = (value: string) => { setBrand(value); setModel(""); setYear(""); };
   const handleModelChange = (value: string) => { setModel(value); setYear(""); };
 
-  const price = selectedKit === "interno" ? "128,90" : "223,80";
+  const price = selectedKit === "interno" ? "139,90" : "229,90";
   const oldPrice = selectedKit === "interno" ? "499,00" : "599,90";
-  const installment = selectedKit === "interno" ? "42,97" : "74,60";
-  const savings = selectedKit === "interno" ? "R$ 370,10" : "R$ 376,10";
-  const discount = selectedKit === "interno" ? "70" : "59";
+  const installment = selectedKit === "interno" ? "46,63" : "76,63";
+  const savings = selectedKit === "interno" ? "R$ 359,10" : "R$ 370,00";
+  const discount = selectedKit === "interno" ? "72" : "62";
 
   const prevImage = () => setCurrentImage((p) => (p === 0 ? productImages.length - 1 : p - 1));
   const nextImage = () => setCurrentImage((p) => (p === productImages.length - 1 ? 0 : p + 1));
@@ -195,12 +195,12 @@ const HeroSection = () => {
                 <div className="flex-1 min-w-0">
                   <span className="inline-block bg-success text-primary-foreground text-[9px] font-bold px-2 py-0.5 rounded mb-0.5">Mais Vendido</span>
                   <h4 className="font-display font-bold text-sm text-foreground leading-tight">Kit Tapetes Interno + Porta Mala</h4>
-                  <p className="text-[10px] text-success font-semibold">Economize R$ 376,10</p>
+                  <p className="text-[10px] text-success font-semibold">Economize R$ 370,00</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="bg-destructive text-primary-foreground text-[9px] font-bold px-1.5 py-0.5 rounded">-59%</span>
+                 <span className="bg-destructive text-primary-foreground text-[9px] font-bold px-1.5 py-0.5 rounded">-62%</span>
                   <p className="text-muted-foreground text-[10px] line-through mt-0.5">R$ 599,90</p>
-                  <p className="font-display font-bold text-base text-success">R$ 223,80</p>
+                  <p className="font-display font-bold text-base text-success">R$ 229,90</p>
                 </div>
               </button>
 
@@ -219,12 +219,12 @@ const HeroSection = () => {
                 <img src={kitSem} alt="Kit sem porta malas" className="w-14 h-14 rounded-xl object-cover shrink-0" loading="eager" width={56} height={56} />
                 <div className="flex-1 min-w-0">
                   <h4 className="font-display font-bold text-sm text-foreground leading-tight">Kit Tapetes Interno Sem Porta Mala</h4>
-                  <p className="text-[10px] text-success font-semibold">Economize R$ 370,10</p>
+                  <p className="text-[10px] text-success font-semibold">Economize R$ 359,10</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="bg-destructive text-primary-foreground text-[9px] font-bold px-1.5 py-0.5 rounded">-70%</span>
+                 <span className="bg-destructive text-primary-foreground text-[9px] font-bold px-1.5 py-0.5 rounded">-72%</span>
                   <p className="text-muted-foreground text-[10px] line-through mt-0.5">R$ 499,00</p>
-                  <p className="font-display font-bold text-base text-success">R$ 128,90</p>
+                  <p className="font-display font-bold text-base text-success">R$ 139,90</p>
                 </div>
               </button>
             </div>
