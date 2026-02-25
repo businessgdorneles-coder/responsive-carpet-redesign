@@ -844,10 +844,16 @@ const Checkout = () => {
                         )}
                       </button>
 
-                      {/* SSL trust indicator below button */}
-                      <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                        <img src={iconSsl} alt="SSL" className="h-5 object-contain opacity-60" />
-                        <span className="text-[10px]">Ambiente seguro com criptografia SSL</span>
+                      {/* Trust indicators below button */}
+                      <div className="flex flex-col items-center gap-1.5 text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                          <img src={iconSsl} alt="SSL" className="h-5 object-contain opacity-60" />
+                          <span className="text-[10px]">Ambiente seguro com criptografia SSL</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+                          <Truck className="w-3 h-3 shrink-0" />
+                          Código de rastreio enviado para seu e-mail imediatamente após a confirmação.
+                        </p>
                       </div>
                     </>
                   )}
