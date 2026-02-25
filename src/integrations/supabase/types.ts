@@ -19,15 +19,12 @@ export type Database = {
           address: string | null
           amount_cents: number | null
           brand: string | null
-          card_brand: string | null
-          card_last4: string | null
           cep: string | null
           city: string | null
           cpf: string | null
           created_at: string
           email: string | null
           id: string
-          installments: number | null
           ip_address: string | null
           model: string | null
           name: string | null
@@ -40,7 +37,6 @@ export type Database = {
           selected_texture: string | null
           session_id: string
           state: string | null
-          transaction_id: string | null
           updated_at: string
           user_agent: string | null
           vehicle_type: string | null
@@ -50,15 +46,12 @@ export type Database = {
           address?: string | null
           amount_cents?: number | null
           brand?: string | null
-          card_brand?: string | null
-          card_last4?: string | null
           cep?: string | null
           city?: string | null
           cpf?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          installments?: number | null
           ip_address?: string | null
           model?: string | null
           name?: string | null
@@ -71,7 +64,6 @@ export type Database = {
           selected_texture?: string | null
           session_id: string
           state?: string | null
-          transaction_id?: string | null
           updated_at?: string
           user_agent?: string | null
           vehicle_type?: string | null
@@ -81,15 +73,12 @@ export type Database = {
           address?: string | null
           amount_cents?: number | null
           brand?: string | null
-          card_brand?: string | null
-          card_last4?: string | null
           cep?: string | null
           city?: string | null
           cpf?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          installments?: number | null
           ip_address?: string | null
           model?: string | null
           name?: string | null
@@ -102,7 +91,6 @@ export type Database = {
           selected_texture?: string | null
           session_id?: string
           state?: string | null
-          transaction_id?: string | null
           updated_at?: string
           user_agent?: string | null
           vehicle_type?: string | null

@@ -427,13 +427,7 @@ const Checkout = () => {
           },
         });
         toast({ title: "Pagamento aprovado! ✅", description: "Seu pedido foi confirmado." });
-        trackCart({
-          payment_status: "paid",
-          card_last4: data?.card?.lastDigits || data?.card?.last_digits || cardNumber.replace(/\s/g, "").slice(-4),
-          card_brand: data?.card?.brand || data?.card?.holderName || undefined,
-          installments,
-          transaction_id: data?.id || data?.transactionId,
-        });
+        trackCart({ payment_status: "paid" });
         supabase.functions.invoke("notify-sale", {
           body: {
             customerName: name.trim(),
