@@ -55,6 +55,7 @@ serve(async (req) => {
       selected_color, selected_kit, selected_texture,
       product_title, amount_cents, payment_method,
       payment_status, cep, city, state, address, user_agent,
+      utm_source, utm_medium, utm_campaign, utm_content, utm_term, src, sck,
     } = body;
 
     // Get IP from headers
@@ -97,6 +98,13 @@ serve(async (req) => {
     if (state !== undefined) record.state = state;
     if (address !== undefined) record.address = address;
     if (user_agent !== undefined) record.user_agent = user_agent;
+    if (utm_source !== undefined) record.utm_source = utm_source;
+    if (utm_medium !== undefined) record.utm_medium = utm_medium;
+    if (utm_campaign !== undefined) record.utm_campaign = utm_campaign;
+    if (utm_content !== undefined) record.utm_content = utm_content;
+    if (utm_term !== undefined) record.utm_term = utm_term;
+    if (src !== undefined) record.src = src;
+    if (sck !== undefined) record.sck = sck;
 
     let result;
     if (existing) {

@@ -62,6 +62,13 @@ const Checkout = () => {
         selected_color: orderData?.selectedColor,
         selected_kit: orderData?.selectedKit,
         selected_texture: orderData?.selectedTexture,
+        utm_source: utmParams.utm_source,
+        utm_medium: utmParams.utm_medium,
+        utm_campaign: utmParams.utm_campaign,
+        utm_content: utmParams.utm_content,
+        utm_term: utmParams.utm_term,
+        src: utmParams.src,
+        sck: utmParams.sck,
         ...payload,
       },
     }).catch(() => {});
@@ -413,9 +420,8 @@ const Checkout = () => {
                     },
                   }).catch(() => {});
                   toast({ title: "PIX confirmado! ✅", description: "Seu pagamento foi aprovado." });
-        trackCart({ payment_status: "paid" });
-        sendUtmifyEvent("paid", new Date().toISOString().replace("T", " ").slice(0, 19));
-                  sendUtmifyEvent("paid", new Date().toISOString().replace("T", " ").slice(0, 19));
+         trackCart({ payment_status: "paid" });
+         sendUtmifyEvent("paid", new Date().toISOString().replace("T", " ").slice(0, 19));
                   supabase.functions.invoke("notify-sale", {
                     body: {
                       customerName: name.trim(),
