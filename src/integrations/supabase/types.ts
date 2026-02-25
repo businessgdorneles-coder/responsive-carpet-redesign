@@ -35,14 +35,21 @@ export type Database = {
           payment_status: string
           phone: string | null
           product_title: string | null
+          sck: string | null
           selected_color: string | null
           selected_kit: string | null
           selected_texture: string | null
           session_id: string
+          src: string | null
           state: string | null
           transaction_id: string | null
           updated_at: string
           user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
           vehicle_type: string | null
           year: string | null
         }
@@ -66,14 +73,21 @@ export type Database = {
           payment_status?: string
           phone?: string | null
           product_title?: string | null
+          sck?: string | null
           selected_color?: string | null
           selected_kit?: string | null
           selected_texture?: string | null
           session_id: string
+          src?: string | null
           state?: string | null
           transaction_id?: string | null
           updated_at?: string
           user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
           vehicle_type?: string | null
           year?: string | null
         }
@@ -97,14 +111,21 @@ export type Database = {
           payment_status?: string
           phone?: string | null
           product_title?: string | null
+          sck?: string | null
           selected_color?: string | null
           selected_kit?: string | null
           selected_texture?: string | null
           session_id?: string
+          src?: string | null
           state?: string | null
           transaction_id?: string | null
           updated_at?: string
           user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
           vehicle_type?: string | null
           year?: string | null
         }
