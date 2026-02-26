@@ -102,9 +102,9 @@ const HeroSection = () => {
           {/* RIGHT: Product Info */}
           <div className="space-y-5">
             <div className="text-center">
-              <h1 className="font-display font-bold text-lg md:text-2xl xl:text-3xl text-foreground leading-tight uppercase inline break-words">
+              <main className="font-display font-bold text-lg md:text-2xl xl:text-3xl text-foreground leading-tight uppercase inline break-words">
                 Tapete Bandeja 3D Premium 5 Peças Incluso Porta Malas
-              </h1>
+              </main>
               <BadgeCheck className="inline-block w-5 h-5 md:w-6 md:h-6 text-success ml-2 align-middle -mt-1" />
               <div className="flex items-center gap-1.5 mt-1.5">
                 <div className="flex gap-0.5">
