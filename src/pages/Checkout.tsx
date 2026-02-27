@@ -75,6 +75,20 @@ const Checkout = () => {
     }).catch(() => {});
   };
 
+  // Smart scroll: only scrolls if element is not already visible on screen
+  const scrollToIfNeeded = useCallback((elementId: string) => {
+    requestAnimationFrame(() => {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      // Only scroll if the top of the element is above or below the visible area
+      if (rect.top < 0 || rect.top > viewportHeight * 0.5) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }, []);
+
   // Scroll to top and track cart start
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -450,9 +464,7 @@ const Checkout = () => {
         setTransactionStatus("waiting_payment");
         trackCart({ payment_status: "pix_generated", transaction_id: transactionId, utmify_order_id: utmifyOrderId });
         // Auto-scroll to PIX section after state update
-        setTimeout(() => {
-          pixSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 150);
+        setTimeout(() => scrollToIfNeeded("step-3"), 300);
         await sendUtmifyEvent("waiting_payment");
         sendNotifySale("pix_generated");
 
@@ -679,21 +691,21 @@ const Checkout = () => {
                   </div>
                   <div>
                     <label className="text-sm font-semibold block mb-1">E-mail</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seuemail@exemplo.com" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={255} />
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seuemail@exemplo.com" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={255} autoComplete="email" />
                   </div>
                   <div>
                     <label className="text-sm font-semibold block mb-1">CPF</label>
-                    <input type="text" value={cpf} onChange={(e) => setCpf(formatCpf(e.target.value))} placeholder="000.000.000-00" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={14} />
+                    <input type="text" inputMode="numeric" value={cpf} onChange={(e) => setCpf(formatCpf(e.target.value))} placeholder="000.000.000-00" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={14} autoComplete="off" />
                   </div>
                   <div>
                     <label className="text-sm font-semibold block mb-1">Celular / Whatsapp</label>
-                    <input type="tel" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))} placeholder="(11) 99999-9999" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={15} />
+                    <input type="tel" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))} placeholder="(11) 99999-9999" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={15} autoComplete="tel" />
                   </div>
                   <button
                     onClick={() => {
                       if (validateStep1()) {
                         setCurrentStep(2);
-                        setTimeout(() => document.getElementById("step-2")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+                        setTimeout(() => scrollToIfNeeded("step-2"), 200);
                         trackCart({
                           payment_status: "identity_filled",
                           name: name.trim(),
@@ -728,7 +740,7 @@ const Checkout = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2 sm:col-span-1">
                       <label className="text-sm font-semibold block mb-1">CEP</label>
-                      <input value={cep} onChange={(e) => handleCepChange(e.target.value)} placeholder="00000-000" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={9} />
+                      <input inputMode="numeric" value={cep} onChange={(e) => handleCepChange(e.target.value)} placeholder="00000-000" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={9} autoComplete="postal-code" />
                     </div>
                   </div>
                   <div>
@@ -763,7 +775,7 @@ const Checkout = () => {
                     onClick={() => {
                       if (validateStep2()) {
                         setCurrentStep(3);
-                        setTimeout(() => document.getElementById("step-3")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+                        setTimeout(() => scrollToIfNeeded("step-3"), 200);
                         trackCart({
                           payment_status: "address_filled",
                           cep: cleanCep(cep),
@@ -919,26 +931,26 @@ const Checkout = () => {
                         <div className="space-y-3">
                           <div>
                             <label className="text-sm font-semibold block mb-1">Número do cartão</label>
-                            <input value={cardNumber} onChange={(e) => {
+                            <input inputMode="numeric" value={cardNumber} onChange={(e) => {
                               const nums = e.target.value.replace(/\D/g, "").slice(0, 16);
                               setCardNumber(nums.replace(/(.{4})/g, "$1 ").trim());
-                            }} placeholder="0000 0000 0000 0000" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={19} />
+                            }} placeholder="0000 0000 0000 0000" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={19} autoComplete="cc-number" />
                           </div>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="text-sm font-semibold block mb-1">Validade</label>
-                            <input value={cardExpiry} onChange={(e) => {
+                            <input inputMode="numeric" value={cardExpiry} onChange={(e) => {
                               const nums = e.target.value.replace(/\D/g, "").slice(0, 4);
                               if (nums.length >= 3) {
                                 setCardExpiry(`${nums.slice(0, 2)}/${nums.slice(2)}`);
                               } else {
                                 setCardExpiry(nums);
                               }
-                            }} placeholder="MM/AA" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={5} />
+                            }} placeholder="MM/AA" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={5} autoComplete="cc-exp" />
                             </div>
                             <div>
                               <label className="text-sm font-semibold block mb-1">CVV</label>
-                              <input value={cardCvv} onChange={(e) => setCardCvv(e.target.value)} placeholder="123" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={4} />
+                              <input inputMode="numeric" value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ""))} placeholder="123" className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background" maxLength={4} autoComplete="cc-csc" />
                             </div>
                           </div>
                           <div>
