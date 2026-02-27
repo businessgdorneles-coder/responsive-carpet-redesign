@@ -516,11 +516,12 @@ const Checkout = () => {
           }, 5000);
         }
       } else if (data?.status === "paid" || data?.status === "authorized") {
+        const cardTransactionId = data?.id || data?.transactionId;
         try {
           window.ttq?.track('CompletePayment', { content_type: 'product', value: priceInCents / 100, currency: 'BRL' });
           window.fbq?.('track', 'Purchase', { value: priceInCents / 100, currency: 'BRL' });
         } catch {}
-        trackCart({ payment_status: "paid" });
+        trackCart({ payment_status: "paid", transaction_id: cardTransactionId, utmify_order_id: utmifyOrderId });
         sendUtmifyEvent("paid", new Date().toISOString().replace("T", " ").slice(0, 19));
         sendNotifySale("card_paid");
         invokeWithKeepalive("meta-events", {
