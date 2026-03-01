@@ -302,13 +302,14 @@ serve(async (req) => {
             name: cart.name || "",
             email: cart.email || "",
             phone: cart.phone || "",
-            address: addrStreet || fullAddress,
+            address: fullAddress || addrStreet || cart.address || "",
             number: addrNumber || "S/N",
             complement: addrComplement,
             neighborhood: addrNeighborhood,
             city: cart.city || "",
             state: cart.state || "",
             zip: cart.cep?.replace(/\D/g, "") || "",
+            country: "BR",
           },
           products: [
             {
