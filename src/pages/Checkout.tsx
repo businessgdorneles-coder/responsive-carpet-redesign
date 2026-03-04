@@ -227,6 +227,24 @@ const Checkout = () => {
   const cleanCpf = (c: string) => c.replace(/\D/g, "");
   const cleanCep = (c: string) => c.replace(/\D/g, "");
 
+  const isValidCpf = (raw: string): boolean => {
+    const cpf = raw.replace(/\D/g, "");
+    if (cpf.length !== 11) return false;
+    // Reject known invalid sequences (all same digit)
+    if (/^(\d)\1{10}$/.test(cpf)) return false;
+    // Validate check digits
+    for (let t = 9; t < 11; t++) {
+      let sum = 0;
+      for (let i = 0; i < t; i++) {
+        sum += parseInt(cpf[i]) * (t + 1 - i);
+      }
+      const remainder = (sum * 10) % 11;
+      const digit = remainder === 10 ? 0 : remainder;
+      if (digit !== parseInt(cpf[t])) return false;
+    }
+    return true;
+  };
+
   const invokeWithKeepalive = (functionName: string, body: Record<string, unknown>) => {
     const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/${functionName}`;
     return fetch(url, {
@@ -339,8 +357,8 @@ const Checkout = () => {
       toast({ title: "Telefone inválido", description: "Informe um telefone válido.", variant: "destructive" });
       return false;
     }
-    if (cleanCpf(cpf).length !== 11) {
-      toast({ title: "CPF inválido", description: "Informe um CPF válido com 11 dígitos.", variant: "destructive" });
+    if (!isValidCpf(cpf)) {
+      toast({ title: "CPF inválido", description: "Verifique os dígitos do seu CPF.", variant: "destructive" });
       return false;
     }
     return true;
