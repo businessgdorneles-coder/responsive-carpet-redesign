@@ -87,7 +87,7 @@ const formatFullRow = (r: CartRecord): string[] => [
   r.address_street || "", r.address_number || "", r.address_complement || "", r.neighborhood || "",
   r.utm_source || "", r.utm_medium || "", r.utm_campaign || "", r.utm_content || "", r.utm_term || "",
   r.src || "", r.sck || "", r.utmify_order_id || "",
-  r.ip_address || "", r.user_agent || "", r.session_id || "",
+  r.ip_address || "", r.session_id || "",
 ];
 
 const RecordsTab = () => {
