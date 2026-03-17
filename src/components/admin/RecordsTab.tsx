@@ -103,6 +103,11 @@ const RecordsTab = () => {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [detailRecord, setDetailRecord] = useState<CartRecord | null>(null);
+  const [cleanupDays, setCleanupDays] = useState(7);
+  const [cleanupStatus, setCleanupStatus] = useState("all");
+  const [cleanupCount, setCleanupCount] = useState<number | null>(null);
+  const [countingOld, setCountingOld] = useState(false);
+  const [deletingOld, setDeletingOld] = useState(false);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
