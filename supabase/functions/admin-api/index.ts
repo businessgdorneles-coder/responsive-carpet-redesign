@@ -114,7 +114,7 @@ serve(async (req) => {
 
     // ── Export all records (no pagination) ──
     if (action === "export-records") {
-      const { statusFilter, dateFrom, dateTo, search, exportAll } = body;
+      const { statusFilter, dateFrom, dateTo, search, exportAll, olderThanDays } = body;
       const allData: any[] = [];
       let offset = 0;
       const batchSize = 1000;
@@ -129,6 +129,10 @@ serve(async (req) => {
           if (dateFrom) q = q.gte("created_at", dateFrom);
           if (dateTo) q = q.lte("created_at", dateTo + "T23:59:59.999Z");
           if (search) q = q.or(`name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`);
+        }
+        if (olderThanDays) {
+          const cutoff = new Date(Date.now() - olderThanDays * 86400000).toISOString();
+          q = q.lt("created_at", cutoff);
         }
         const { data: batch } = await q;
         if (!batch || batch.length === 0) break;
