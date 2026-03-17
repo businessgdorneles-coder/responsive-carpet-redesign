@@ -54,7 +54,7 @@ serve(async (req) => {
       brand, model, year, vehicle_type,
       selected_color, selected_kit, selected_texture,
       product_title, amount_cents, payment_method,
-      payment_status, cep, city, state, address, user_agent,
+      payment_status, cep, city, state, address,
       utm_source, utm_medium, utm_campaign, utm_content, utm_term, src, sck,
       transaction_id, utmify_order_id,
       address_street, address_number, address_complement, neighborhood,
