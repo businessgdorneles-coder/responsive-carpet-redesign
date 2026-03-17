@@ -196,8 +196,20 @@ serve(async (req) => {
     if (action === "bulk-delete-old") {
       const { status, olderThanDays } = body;
       const cutoff = new Date(Date.now() - olderThanDays * 86400000).toISOString();
-      await adminClient.from("abandoned_carts").delete().eq("payment_status", status).lt("created_at", cutoff);
+      let q = adminClient.from("abandoned_carts").delete().lt("created_at", cutoff);
+      if (status && status !== "all") q = q.eq("payment_status", status);
+      await q;
       return json({ success: true });
+    }
+
+    // ── Count old records ──
+    if (action === "count-old-records") {
+      const { olderThanDays, status } = body;
+      const cutoff = new Date(Date.now() - olderThanDays * 86400000).toISOString();
+      let q = adminClient.from("abandoned_carts").select("*", { count: "exact", head: true }).lt("created_at", cutoff);
+      if (status && status !== "all") q = q.eq("payment_status", status);
+      const { count } = await q;
+      return json({ count: count || 0 });
     }
 
     return json({ error: "Unknown action" }, 400);
