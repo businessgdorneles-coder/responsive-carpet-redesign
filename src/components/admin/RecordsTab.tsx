@@ -249,9 +249,10 @@ const RecordsTab = () => {
   const deleteOldRecords = async () => {
     if (cleanupCount === null) {
       await fetchOldCount();
+      setShowDeleteConfirm(true);
       return;
     }
-    if (!confirm(`Tem certeza que deseja APAGAR ${cleanupCount.toLocaleString("pt-BR")} registros com mais de ${cleanupDays} dias?\n\nEssa ação é irreversível!`)) return;
+    setShowDeleteConfirm(false);
     setDeletingOld(true);
     try {
       const session = await supabase.auth.getSession();
@@ -265,6 +266,17 @@ const RecordsTab = () => {
     } finally {
       setDeletingOld(false);
     }
+  };
+
+  const handleDeleteOldClick = async () => {
+    if (cleanupCount === null) {
+      await fetchOldCount();
+    }
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteOld = async () => {
+    await deleteOldRecords();
   };
 
   const DetailField = ({ label, value }: { label: string; value: string | null | undefined }) => (
