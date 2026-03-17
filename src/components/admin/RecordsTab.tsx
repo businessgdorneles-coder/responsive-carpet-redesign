@@ -314,6 +314,44 @@ const RecordsTab = () => {
           className="text-sm text-primary hover:underline">Limpar filtros</button>
       </div>
 
+      {/* Cleanup section */}
+      <div className="bg-background border border-border rounded-xl p-4 flex flex-wrap gap-3 items-end">
+        <div className="flex items-center gap-2 mr-2">
+          <Clock className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm font-semibold">Limpeza</span>
+        </div>
+        <div>
+          <label className="text-xs font-semibold block mb-1">Mais antigos que</label>
+          <select value={cleanupDays} onChange={e => { setCleanupDays(Number(e.target.value)); setCleanupCount(null); }}
+            className="border border-border rounded-lg px-3 py-2 text-sm bg-background">
+            <option value={7}>7 dias</option>
+            <option value={15}>15 dias</option>
+            <option value={30}>30 dias</option>
+            <option value={60}>60 dias</option>
+            <option value={90}>90 dias</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-xs font-semibold block mb-1">Status</label>
+          <select value={cleanupStatus} onChange={e => { setCleanupStatus(e.target.value); setCleanupCount(null); }}
+            className="border border-border rounded-lg px-3 py-2 text-sm bg-background min-w-[160px]">
+            <option value="all">Todos</option>
+            {Object.entries(statusLabels).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+          </select>
+        </div>
+        <Button variant="outline" size="sm" onClick={fetchOldCount} disabled={countingOld}>
+          {countingOld ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Search className="w-4 h-4 mr-1" />}
+          {cleanupCount !== null ? `${cleanupCount.toLocaleString("pt-BR")} encontrados` : "Contar"}
+        </Button>
+        <Button variant="outline" size="sm" onClick={exportOldRecords} disabled={exporting}>
+          <FileSpreadsheet className="w-4 h-4 mr-1" /> Exportar antigos
+        </Button>
+        <Button variant="destructive" size="sm" onClick={deleteOldRecords} disabled={deletingOld}>
+          {deletingOld ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Trash2 className="w-4 h-4 mr-1" />}
+          Apagar antigos
+        </Button>
+      </div>
+
       {exporting && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700 flex items-center gap-2">
           <RefreshCw className="w-4 h-4 animate-spin" /> Exportando registros, aguarde...
