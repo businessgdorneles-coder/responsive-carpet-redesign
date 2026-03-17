@@ -114,27 +114,23 @@ serve(async (req) => {
 
     // ── Export all records (no pagination) ──
     if (action === "export-records") {
-      const { statusFilter, dateFrom, dateTo, search } = body;
-      let query = adminClient
-        .from("abandoned_carts")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (statusFilter && statusFilter !== "all") query = query.eq("payment_status", statusFilter);
-      if (dateFrom) query = query.gte("created_at", dateFrom);
-      if (dateTo) query = query.lte("created_at", dateTo + "T23:59:59.999Z");
-      if (search) query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`);
-
-      // Fetch all records in batches
+      const { statusFilter, dateFrom, dateTo, search, exportAll } = body;
       const allData: any[] = [];
       let offset = 0;
       const batchSize = 1000;
       while (true) {
-        const { data: batch } = await adminClient
+        let q = adminClient
           .from("abandoned_carts")
           .select("*")
           .order("created_at", { ascending: false })
           .range(offset, offset + batchSize - 1);
+        if (!exportAll) {
+          if (statusFilter && statusFilter !== "all") q = q.eq("payment_status", statusFilter);
+          if (dateFrom) q = q.gte("created_at", dateFrom);
+          if (dateTo) q = q.lte("created_at", dateTo + "T23:59:59.999Z");
+          if (search) q = q.or(`name.ilike.%${search}%,email.ilike.%${search}%,phone.ilike.%${search}%`);
+        }
+        const { data: batch } = await q;
         if (!batch || batch.length === 0) break;
         allData.push(...batch);
         if (batch.length < batchSize) break;
