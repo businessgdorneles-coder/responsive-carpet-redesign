@@ -71,7 +71,7 @@ const allExportHeaders = [
   "Valor (R$)", "Método Pgto", "Status", "Parcelas", "Bandeira Cartão", "Últimos 4", "ID Transação",
   "CEP", "Cidade", "Estado", "Endereço", "Rua", "Número", "Complemento", "Bairro",
   "UTM Source", "UTM Medium", "UTM Campaign", "UTM Content", "UTM Term", "src", "sck",
-  "Utmify Order ID", "IP", "User Agent", "Session ID",
+  "Utmify Order ID", "IP", "Session ID",
 ];
 
 const formatFullRow = (r: CartRecord): string[] => [
