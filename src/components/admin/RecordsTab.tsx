@@ -297,9 +297,6 @@ const RecordsTab = () => {
           <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Atualizar
           </Button>
-          <Button variant="outline" size="sm" onClick={() => exportCSV(false)} disabled={exporting}><Download className="w-4 h-4 mr-1" /> CSV</Button>
-          <Button variant="outline" size="sm" onClick={() => exportXLSX(false)} disabled={exporting}><FileSpreadsheet className="w-4 h-4 mr-1" /> Excel</Button>
-          <Button variant="outline" size="sm" onClick={() => exportPDF(false)} disabled={exporting}><FileText className="w-4 h-4 mr-1" /> PDF</Button>
           <div className="relative" ref={exportMenuRef}>
             <Button variant="default" size="sm" onClick={() => setShowExportMenu(!showExportMenu)} disabled={exporting} className="bg-green-600 hover:bg-green-700 text-white">
               <Download className="w-4 h-4 mr-1" /> Exportar Tudo <ChevronDown className="w-3 h-3 ml-1" />
