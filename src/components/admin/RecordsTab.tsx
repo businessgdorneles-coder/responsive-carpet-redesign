@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, RefreshCw, ChevronLeft, ChevronRight, Search, FileSpreadsheet, FileText, Trash2, X, Eye, Clock } from "lucide-react";
+import { Download, RefreshCw, ChevronLeft, ChevronRight, Search, FileSpreadsheet, FileText, Trash2, X, Eye, Clock, ChevronDown, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -108,6 +108,9 @@ const RecordsTab = () => {
   const [cleanupCount, setCleanupCount] = useState<number | null>(null);
   const [countingOld, setCountingOld] = useState(false);
   const [deletingOld, setDeletingOld] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const exportMenuRef = useRef<HTMLDivElement>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -124,6 +127,17 @@ const RecordsTab = () => {
   }, [statusFilter, dateFrom, dateTo, search, page]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
+
+  // Close export menu on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
+        setShowExportMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const getExportData = async (exportAll = false) => {
     setExporting(true);
@@ -235,9 +249,10 @@ const RecordsTab = () => {
   const deleteOldRecords = async () => {
     if (cleanupCount === null) {
       await fetchOldCount();
+      setShowDeleteConfirm(true);
       return;
     }
-    if (!confirm(`Tem certeza que deseja APAGAR ${cleanupCount.toLocaleString("pt-BR")} registros com mais de ${cleanupDays} dias?\n\nEssa ação é irreversível!`)) return;
+    setShowDeleteConfirm(false);
     setDeletingOld(true);
     try {
       const session = await supabase.auth.getSession();
@@ -251,6 +266,17 @@ const RecordsTab = () => {
     } finally {
       setDeletingOld(false);
     }
+  };
+
+  const handleDeleteOldClick = async () => {
+    if (cleanupCount === null) {
+      await fetchOldCount();
+    }
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteOld = async () => {
+    await deleteOldRecords();
   };
 
   const DetailField = ({ label, value }: { label: string; value: string | null | undefined }) => (
@@ -274,9 +300,24 @@ const RecordsTab = () => {
           <Button variant="outline" size="sm" onClick={() => exportCSV(false)} disabled={exporting}><Download className="w-4 h-4 mr-1" /> CSV</Button>
           <Button variant="outline" size="sm" onClick={() => exportXLSX(false)} disabled={exporting}><FileSpreadsheet className="w-4 h-4 mr-1" /> Excel</Button>
           <Button variant="outline" size="sm" onClick={() => exportPDF(false)} disabled={exporting}><FileText className="w-4 h-4 mr-1" /> PDF</Button>
-          <Button variant="default" size="sm" onClick={() => exportXLSX(true)} disabled={exporting} className="bg-green-600 hover:bg-green-700 text-white">
-            <Download className="w-4 h-4 mr-1" /> Exportar Tudo
-          </Button>
+          <div className="relative" ref={exportMenuRef}>
+            <Button variant="default" size="sm" onClick={() => setShowExportMenu(!showExportMenu)} disabled={exporting} className="bg-green-600 hover:bg-green-700 text-white">
+              <Download className="w-4 h-4 mr-1" /> Exportar Tudo <ChevronDown className="w-3 h-3 ml-1" />
+            </Button>
+            {showExportMenu && (
+              <div className="absolute right-0 top-full mt-1 z-50 bg-popover border border-border rounded-lg shadow-lg py-1 min-w-[160px]">
+                <button onClick={() => { exportXLSX(true); setShowExportMenu(false); }} className="w-full text-left px-4 py-2 text-sm hover:bg-muted flex items-center gap-2">
+                  <FileSpreadsheet className="w-4 h-4" /> Excel (.xlsx)
+                </button>
+                <button onClick={() => { exportCSV(true); setShowExportMenu(false); }} className="w-full text-left px-4 py-2 text-sm hover:bg-muted flex items-center gap-2">
+                  <Download className="w-4 h-4" /> CSV (.csv)
+                </button>
+                <button onClick={() => { exportPDF(true); setShowExportMenu(false); }} className="w-full text-left px-4 py-2 text-sm hover:bg-muted flex items-center gap-2">
+                  <FileText className="w-4 h-4" /> PDF (.pdf)
+                </button>
+              </div>
+            )}
+          </div>
           {selected.size > 0 && (
             <Button variant="destructive" size="sm" onClick={handleDeleteSelected}>
               <Trash2 className="w-4 h-4 mr-1" /> Excluir ({selected.size})
@@ -346,11 +387,47 @@ const RecordsTab = () => {
         <Button variant="outline" size="sm" onClick={exportOldRecords} disabled={exporting}>
           <FileSpreadsheet className="w-4 h-4 mr-1" /> Exportar antigos
         </Button>
-        <Button variant="destructive" size="sm" onClick={deleteOldRecords} disabled={deletingOld}>
+        <Button variant="destructive" size="sm" onClick={handleDeleteOldClick} disabled={deletingOld}>
           {deletingOld ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Trash2 className="w-4 h-4 mr-1" />}
           Apagar antigos
         </Button>
       </div>
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="w-5 h-5" /> Confirmar exclusão
+            </DialogTitle>
+            <DialogDescription>
+              Essa ação é irreversível. Os registros apagados não poderão ser recuperados.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <p className="text-sm">
+              Você está prestes a apagar{" "}
+              <strong>{cleanupCount !== null ? cleanupCount.toLocaleString("pt-BR") : "..."}</strong>{" "}
+              registros com mais de <strong>{cleanupDays} dias</strong>
+              {cleanupStatus !== "all" && (
+                <> com status <strong>{statusLabels[cleanupStatus]?.label || cleanupStatus}</strong></>
+              )}.
+            </p>
+            {countingOld && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <RefreshCw className="w-4 h-4 animate-spin" /> Contando registros...
+              </div>
+            )}
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>Cancelar</Button>
+            <Button variant="destructive" onClick={confirmDeleteOld} disabled={deletingOld || countingOld || cleanupCount === null || cleanupCount === 0}>
+              {deletingOld ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Trash2 className="w-4 h-4 mr-1" />}
+              Apagar {cleanupCount !== null ? cleanupCount.toLocaleString("pt-BR") : ""} registros
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {exporting && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700 flex items-center gap-2">
