@@ -197,6 +197,62 @@ const RecordsTab = () => {
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
+  const fetchOldCount = async () => {
+    setCountingOld(true);
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      const { data } = await supabase.functions.invoke("admin-api", {
+        body: { action: "count-old-records", olderThanDays: cleanupDays, status: cleanupStatus },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCleanupCount(data?.count ?? 0);
+    } finally {
+      setCountingOld(false);
+    }
+  };
+
+  const exportOldRecords = async () => {
+    setExporting(true);
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      const { data } = await supabase.functions.invoke("admin-api", {
+        body: { action: "export-records", exportAll: true, olderThanDays: cleanupDays, statusFilter: cleanupStatus },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const all = data?.data || [];
+      const rows = all.map(formatFullRow);
+      const ws = XLSX.utils.aoa_to_sheet([allExportHeaders, ...rows]);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Registros");
+      XLSX.writeFile(wb, `registros-antigos-${cleanupDays}dias-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const deleteOldRecords = async () => {
+    if (cleanupCount === null) {
+      await fetchOldCount();
+      return;
+    }
+    if (!confirm(`Tem certeza que deseja APAGAR ${cleanupCount.toLocaleString("pt-BR")} registros com mais de ${cleanupDays} dias?\n\nEssa ação é irreversível!`)) return;
+    setDeletingOld(true);
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      await supabase.functions.invoke("admin-api", {
+        body: { action: "bulk-delete-old", olderThanDays: cleanupDays, status: cleanupStatus },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCleanupCount(null);
+      fetchData();
+    } finally {
+      setDeletingOld(false);
+    }
+  };
+
   const DetailField = ({ label, value }: { label: string; value: string | null | undefined }) => (
     <div className="py-1.5 px-2">
       <span className="text-xs text-muted-foreground block">{label}</span>
