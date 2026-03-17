@@ -47,7 +47,6 @@ interface CartRecord {
   sck: string | null;
   utmify_order_id: string | null;
   ip_address: string | null;
-  user_agent: string | null;
   created_at: string;
   updated_at: string;
 }
