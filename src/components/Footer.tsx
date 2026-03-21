@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, Clock, Shield, BadgeCheck, Instagram } from "lucide-react";
-import logoVelox from "@/assets/logo-velox.webp";
+import logoVelox from "@/assets/logo-velox.png";
 
 const Footer = () => {
   return (
