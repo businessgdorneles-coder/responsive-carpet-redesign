@@ -1,5 +1,5 @@
 import { Menu, Search } from "lucide-react";
-import logoVelox from "@/assets/logo-velox.webp";
+import logoVelox from "@/assets/logo-velox.png";
 
 const Header = () => {
   return (
