@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X, Search, Phone, ShoppingBag, HelpCircle } from "lucide-react";
-import logoVelox from "@/assets/logo-velox.png";
+import logo from "@/assets/logo.png";
 
 const menuItems = [
   { label: "Produtos", href: "/" },
@@ -25,7 +25,7 @@ const Header = () => {
           </button>
 
           <a href="/">
-            <img src={logoVelox} alt="Velox" className="h-8 sm:h-10 object-contain" />
+            <img src={logo} alt="PrimeTAP" className="h-8 sm:h-10 object-contain" />
           </a>
 
           <a
@@ -55,7 +55,7 @@ const Header = () => {
         }`}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-primary-foreground/10">
-          <img src={logoVelox} alt="Velox" className="h-8 object-contain" />
+          <img src={logo} alt="PrimeTAP" className="h-8 object-contain" />
           <button onClick={() => setMenuOpen(false)} className="text-white">
             <X className="w-6 h-6" />
           </button>
@@ -82,7 +82,7 @@ const Header = () => {
 
         <div className="absolute bottom-8 left-5 right-5">
           <p className="text-primary-foreground/30 text-xs text-center">
-            Velox Centro Automotivo LTDA
+            PrimeTAP Centro Automotivo LTDA
           </p>
         </div>
       </div>

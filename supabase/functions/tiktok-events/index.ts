@@ -89,7 +89,7 @@ serve(async (req) => {
 
     const eventData = {
       pixel_code: pixelCode,
-      partner_name: "VeloxBR",
+      partner_name: "PrimeTAP",
       event: event,
       event_id: event_id || crypto.randomUUID(),
       event_time: Math.floor(Date.now() / 1000),

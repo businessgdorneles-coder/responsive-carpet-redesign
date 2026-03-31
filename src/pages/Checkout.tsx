@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import prod1 from "@/assets/prod1.webp";
-import logoCheckout from "@/assets/logo-velox.png";
+import logoCheckout from "@/assets/logo.png";
 import iconSsl from "@/assets/icon-ssl.webp";
 import seloRA from "@/assets/selo-ra.webp";
 
@@ -189,7 +189,7 @@ const Checkout = () => {
   }, []);
 
   // Stable orderId and createdAt for UTMify (same across waiting_payment → paid)
-  const [utmifyOrderId] = useState(() => `VELOX-${Date.now()}`);
+  const [utmifyOrderId] = useState(() => `PRIMETAP-${Date.now()}`);
   const [utmifyCreatedAt] = useState(() => new Date().toISOString().replace("T", " ").slice(0, 19));
 
   // UTM parameters - read from sessionStorage (persisted from landing page URL)
@@ -673,8 +673,8 @@ const Checkout = () => {
   };
 
   const testimonials = [
-    { name: "Lucas Almeida", text: "Fiquei na dúvida antes de comprar, mas a Velox me surpreendeu! Tapete de altíssima qualidade. Recomendo!" },
-    { name: "Mariana Costa", text: "Estava com um pé atrás, mas a Velox entregou tudo certinho e rápido. Produto incrível, loja confiável!" },
+    { name: "Lucas Almeida", text: "Fiquei na dúvida antes de comprar, mas a PrimeTAP me surpreendeu! Tapete de altíssima qualidade. Recomendo!" },
+    { name: "Mariana Costa", text: "Estava com um pé atrás, mas a PrimeTAP entregou tudo certinho e rápido. Produto incrível, loja confiável!" },
     { name: "Tulio Vasconcelos", text: "Pensei duas vezes antes de comprar online, mas valeu muito a pena. Encaixe perfeito e acabamento impecável." },
   ];
 
@@ -688,7 +688,7 @@ const Checkout = () => {
           </div>
           <h1 className="font-display text-2xl font-bold mb-2">🔥 Parabéns pela sua escolha!</h1>
           <p className="text-muted-foreground text-sm mb-6">
-            Você acaba de garantir seu produto com a <strong className="text-foreground">Velox Brasil</strong>, referência em produtos automotivos.<br /><br />
+            Você acaba de garantir seu produto com a <strong className="text-foreground">PrimeTAP</strong>, referência em produtos automotivos.<br /><br />
             Seu pedido já está sendo preparado com todo cuidado e em breve te enviamos a atualização de envio! 🚚
           </p>
           <button onClick={() => navigate("/")} className="bg-primary text-primary-foreground font-bold py-3 px-6 rounded-lg hover:brightness-110 transition-all">
@@ -705,7 +705,7 @@ const Checkout = () => {
       <header className="bg-primary py-3">
         <div className="container flex items-center justify-between max-w-6xl">
           <a href="/">
-            <img src={logoCheckout} alt="VeloxBR" className="h-8 sm:h-10 object-contain" />
+            <img src={logoCheckout} alt="PrimeTAP" className="h-8 sm:h-10 object-contain" />
           </a>
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-1.5 text-primary-foreground/60 text-[10px]">
@@ -1325,9 +1325,9 @@ const Checkout = () => {
         <div className="container max-w-6xl py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <img src={logoCheckout} alt="VeloxBR" className="h-6 object-contain opacity-80" />
+              <img src={logoCheckout} alt="PrimeTAP" className="h-6 object-contain opacity-80" />
               <div className="h-4 w-px bg-primary-foreground/15" />
-              <p className="text-[10px]">Velox Centro Automotivo LTDA • CNPJ: 78.323.998/0001-52</p>
+              <p className="text-[10px]">PrimeTAP Centro Automotivo LTDA • CNPJ: 78.323.998/0001-52</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5">
@@ -1345,7 +1345,7 @@ const Checkout = () => {
             </div>
           </div>
           <div className="text-center mt-4 pt-3 border-t border-primary-foreground/10">
-            <p className="text-[9px] text-primary-foreground/40">© {new Date().getFullYear()} VeloxBR — Todos os direitos reservados</p>
+            <p className="text-[9px] text-primary-foreground/40">© {new Date().getFullYear()} PrimeTAP — Todos os direitos reservados</p>
           </div>
         </div>
       </footer>

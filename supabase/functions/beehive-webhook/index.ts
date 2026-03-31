@@ -167,7 +167,7 @@ serve(async (req) => {
     const kitLabel = cart.product_title || "Tapete Bandeja 3D";
 
     // Generate utmify_order_id if missing (safety net)
-    const utmifyOrderId = cart.utmify_order_id || `VELOX-WH-${Date.now()}`;
+    const utmifyOrderId = cart.utmify_order_id || `PRIMETAP-WH-${Date.now()}`;
 
     // Update cart status to paid + ensure utmify_order_id is set
     await supabase
@@ -180,7 +180,7 @@ serve(async (req) => {
 
     const utmifyPayload = {
       orderId: utmifyOrderId,
-      platform: "VeloxBR",
+      platform: "PrimeTAP",
       paymentMethod: cart.payment_method === "credit_card" ? "credit_card" : "pix",
       status: "paid",
       createdAt: cart.created_at?.replace("T", " ").slice(0, 19) || now,

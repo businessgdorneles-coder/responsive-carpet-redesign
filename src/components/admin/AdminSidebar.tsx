@@ -37,7 +37,7 @@ const AdminSidebar = ({ active, onTabChange, userEmail }: AdminSidebarProps) => 
             <Zap className="w-4 h-4 text-white" />
           </div>
           <div>
-            <p className="font-bold text-white text-sm tracking-wide">VeloxBR</p>
+            <p className="font-bold text-white text-sm tracking-wide">PrimeTAP</p>
             <p className="text-[10px] text-slate-500 uppercase tracking-widest">Admin Panel</p>
           </div>
         </div>

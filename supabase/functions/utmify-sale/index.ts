@@ -83,7 +83,7 @@ serve(async (req) => {
 
     const utmifyPayload = {
       orderId,
-      platform: "VeloxBR",
+      platform: "PrimeTAP",
       paymentMethod: utmifyPaymentMethod,
       status: utmifyStatus,
       createdAt: createdAt || new Date().toISOString().replace("T", " ").slice(0, 19),

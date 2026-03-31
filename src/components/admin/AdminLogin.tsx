@@ -56,7 +56,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-500/30 mb-4">
             <Zap className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">VeloxBR</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">PrimeTAP</h1>
           <p className="text-slate-400 text-sm mt-1">Painel Administrativo</p>
         </div>
 
@@ -79,7 +79,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={handleKey}
-                placeholder="admin@veloxbr.com"
+                placeholder="admin@primetap.com.br"
                 autoComplete="email"
                 disabled={loading}
                 className="bg-slate-700/60 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-blue-500/20 h-11"
@@ -126,7 +126,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-6">
-          © {new Date().getFullYear()} VeloxBR · Acesso restrito
+          © {new Date().getFullYear()} PrimeTAP · Acesso restrito
         </p>
       </div>
     </div>

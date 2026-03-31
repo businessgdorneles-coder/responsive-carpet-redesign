@@ -195,7 +195,7 @@ const RecordsTab = () => {
     const rows = all.map(formatFullRow);
     const doc = new jsPDF({ orientation: "landscape" });
     doc.setFontSize(14);
-    doc.text("Registros - VeloxBR", 14, 15);
+    doc.text("Registros - PrimeTAP", 14, 15);
     autoTable(doc, { head: [allExportHeaders], body: rows, startY: 22, styles: { fontSize: 4, cellPadding: 1 } });
     doc.save(`registros${exportAll ? "-completo" : ""}-${new Date().toISOString().slice(0, 10)}.pdf`);
   };
